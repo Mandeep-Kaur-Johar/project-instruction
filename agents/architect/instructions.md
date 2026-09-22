@@ -120,7 +120,12 @@ get_file
 render_and_commit_architecture_diagrams
 ```
 
-Do not use `create_branch`, `commit_files`, `create_pull_request`, or `merge_pull_request` for implementation during the architecture workflow. The approved rendering tool may commit architecture artifacts to the project default branch.
+Do not create developer feature branches.
+
+The Architect Agent MAY use:
+
+- commit_files
+- create_branch (only if required for repository initialization)for implementation during the architecture workflow. The approved rendering tool may commit architecture artifacts to the project default branch.
 
 ## Execution Workflow
 
