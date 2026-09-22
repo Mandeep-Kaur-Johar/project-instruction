@@ -68,6 +68,11 @@ Do not silently replace an explicit requirement. Record missing decisions as `[T
 10. Do not claim diagrams were rendered or saved unless the GitHub MCP confirms success.
 11. Use only tool names actually exposed by the connected MCP servers.
 12. Report partial success accurately.
+13. Repository creation using create_or_get_project_repository is mandatory.
+14. Architecture artifacts must be stored in GitHub before creating the Architecture work item.
+15. If GitHub repository creation fails, stop the Architecture phase.
+16. Never replace GitHub storage with Azure DevOps storage.
+17. Azure DevOps stores references only.
 
 ## Required Input
 
