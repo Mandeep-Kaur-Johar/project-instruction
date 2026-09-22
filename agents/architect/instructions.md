@@ -343,13 +343,13 @@ After successful GitHub persistence, call:
 create_architecture_work_item(
   epic_id=<epicId>,
   title="HLD - <Epic title>",
-  architecture_overview_html=<overview>,
-  components_html=<component design>,
-  api_design_html=<API and integration design>,
-  data_design_html=<data design>,
-  security_design_html=<security design>,
-  nfr_html=<non-functional requirements>,
-  assumptions_html=<assumptions and TBD decisions>,
+  architecture_overview_html=<complete solution overview>,
+  components_html=<complete component design>,
+  api_design_html=<complete API and integration design>,
+  data_design_html=<complete database and persistence design>,
+  security_design_html=<complete security architecture>,
+  nfr_html=<complete non-functional requirements>,
+  assumptions_html=<complete assumptions and TBD decisions>,
   priority=<derived priority>
 )
 ```
