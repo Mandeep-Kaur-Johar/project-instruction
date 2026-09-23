@@ -335,36 +335,34 @@ Expected dynamic path:
 
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
 
-### Step 9: Generate and Commit the System Design Document
+## Step 9: Generate and Commit the System Design Document
 
-After render_and_commit_architecture_diagrams() returns success=true:
+After `render_and_commit_architecture_diagrams()` returns `success=true`,
+generate the complete System Design Document using:
+
+```text
+agents/architect/design-document-instructions.md
+```
 
 ### Step 9.1 Retrieve Template
 
 Retrieve:
 
+```text
 agents/architect/design-document-instructions.md
+```
 
-Use this template to generate the complete System Design Document.
+Use this file as the authoritative template.
 
 ---
 
-### Step 9.2 Build Document Content
+### Step 9.2 Generate Document Sections
 
-Generate ONE complete document.
+Generate the complete System Design Document.
 
-Do NOT split the document into:
+Preserve all headings and subheadings from the template.
 
-- System-Design-Document-Part1-Sections-1-3.md
-- System-Design-Document-Part2-Section-4.md
-- System-Design-Document-Part3-Section-5.md
-- System-Design-Document-Part4-Sections-6-9.md
-
-Generate only:
-
-System-Design-Document.md
-
-Populate every section using:
+Use:
 
 - Epic
 - Features
@@ -373,23 +371,55 @@ Populate every section using:
 - Architecture Decisions
 - Assumptions
 - Dependencies
+- Security Requirements
 - NFRs
-- Traceability
+- Traceability Information
 
-Preserve every heading and subheading from
-design-document-instructions.md.
+If the complete document is large, generate it in multiple Markdown files:
+
+```text
+System-Design-Document-Part1-Sections-1-3.md
+System-Design-Document-Part2-Section-4.md
+System-Design-Document-Part3-Section-5.md
+System-Design-Document-Part4-Sections-6-9.md
+```
+
+Commit these files to GitHub.
 
 ---
 
-### Step 9.3 Build Tool Inputs
+### Step 9.3 Insert Diagram Placeholders
+
+Insert the following placeholders where applicable:
+
+```text
+- !Solution Architecture
+- !Critical Workflow Sequence
+- !High-Level Flow
+- !Deployment Diagram
+- !CI/CD Pipeline
+- !Data Model
+- !Component Diagram
+```
+
+These placeholders correspond to PNG files already committed by:
+
+```text
+render_and_commit_architecture_diagrams()
+```
+
+---
+
+### Step 9.4 Build Tool Inputs
 
 Before calling
-generate_and_commit_system_design_document()
+`generate_and_commit_system_design_document()`
 
 construct:
 
+```text
 repository_name
-    = repository.name returned by
+    = repository.name returned from
       create_or_get_project_repository()
 
 epic_id
@@ -401,49 +431,54 @@ branch
 
 document_title
     = System Design Document - <Epic Title>
+```
 
-document_markdown
-    = complete generated document
+Construct:
 
-diagram_mapping
-    =
+```text
+document_paths
+```
 
-    {
-      "!Solution Architecture":
-        "solution-architecture.png",
+using the committed Markdown files:
 
-      "!Critical Workflow Sequence":
-        "sequence.png",
+```text
+[
+  "docs/architecture/epic-<epicId>/System-Design-Document-Part1-Sections-1-3.md",
+  "docs/architecture/epic-<epicId>/System-Design-Document-Part2-Section-4.md",
+  "docs/architecture/epic-<epicId>/System-Design-Document-Part3-Section-5.md",
+  "docs/architecture/epic-<epicId>/System-Design-Document-Part4-Sections-6-9.md"
+]
+```
 
-      "!High-Level Flow":
-        "system-context.png",
+Construct:
 
-      "!Deployment Diagram":
-        "deployment.png",
-
-      "!CI/CD Pipeline":
-        "cicd.png",
-
-      "!Data Model":
-        "data-model.png",
-
-      "!Component Diagram":
-        "component.png"
-    }
+```json
+{
+  "!Solution Architecture": "diagram-architecture.png",
+  "!Critical Workflow Sequence": "diagram-sequence.png",
+  "!High-Level Flow": "diagram-highlevel.png",
+  "!Deployment Diagram": "diagram-deployment.png",
+  "!CI/CD Pipeline": "diagram-cicd.png",
+  "!Data Model": "diagram-datamodel.png",
+  "!Component Diagram": "diagram-component.png"
+}
+```
 
 ---
 
-### Step 9.4 Validation Before Tool Call
+### Step 9.5 Validation Before Tool Call
 
 Verify:
 
-✓ repository_name exists
+✅ repository_name exists
 
-✓ epic_id exists
+✅ epic_id exists
 
-✓ document_markdown exists
+✅ branch exists
 
-✓ branch exists
+✅ document_paths exists
+
+✅ document_paths is not empty
 
 If any value is missing:
 
@@ -451,33 +486,70 @@ STOP
 
 Return:
 
+```text
 DOCUMENT GENERATION FAILED
+```
 
-and list the missing fields.
+and list the missing inputs.
 
-Do NOT call the tool with empty parameters.
+Do not call the tool with empty arguments.
 
 ---
 
-### Step 9.5 Generate Final Document
+### Step 9.6 Generate Final Document
 
 Call:
 
+```text
 generate_and_commit_system_design_document(
     repository_name=<repository_name>,
     epic_id=<epic_id>,
-    document_markdown=<complete_document_markdown>,
+    document_paths=<document_paths>,
     branch=<branch>,
     document_title=<document_title>,
     diagram_mapping=<diagram_mapping>
 )
+```
+
+Do NOT pass the complete document through:
+
+```text
+document_markdown
+```
+
+when the document is stored in GitHub.
+
+The MCP server must retrieve and merge the document files server-side.
 
 ---
 
-### Step 9.6 Success Criteria
+### Step 9.7 Generated Outputs
+
+The tool must generate:
+
+```text
+System-Design-Document.md
+
+System-Design-Document.docx
+```
+
+The tool must:
+
+1. Read committed document parts.
+2. Merge them.
+3. Read committed PNG files.
+4. Embed PNGs into DOCX.
+5. Generate Markdown.
+6. Generate DOCX.
+7. Commit both files.
+
+---
+
+### Step 9.8 Success Criteria
 
 The step succeeds only when:
 
+```text
 success=true
 
 commit_sha exists
@@ -493,17 +565,23 @@ document.docx_url exists
 document.docx_download_url exists
 
 document.embedded_diagram_count exists
+```
 
 ---
 
-### Step 9.7 Completion Rule
+### Step 9.9 Completion Rule
 
-Architecture is not complete until GitHub contains:
+The Architecture phase is NOT complete until GitHub contains:
 
-- System-Design-Document.md
-- System-Design-Document.docx
-- all .png files
-- all .mmd files
+```text
+System-Design-Document.md
+
+System-Design-Document.docx
+
+all .png files
+
+all .mmd files
+```
 
 Do not report Success before all artifacts exist.
 
