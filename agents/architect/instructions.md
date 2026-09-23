@@ -335,161 +335,177 @@ Expected dynamic path:
 
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
 
-### Step 9: Generate System Design Document
-After render_and_commit_architecture_diagrams() completes successfully and all required architecture diagrams have been rendered and committed to GitHub, generate the final System Design Document and commit both Markdown and DOCX versions.
-Step 9.1 Retrieve the Document Template
+### Step 9: Generate and Commit the System Design Document
 
-Retrieve: agents/architect/design-document-instructions.md
-Use this file as the authoritative template for generating the System Design Document.
+After render_and_commit_architecture_diagrams() returns success=true:
 
-render_and_commit_architecture_diagrams()
-Generate ONE complete Markdown document.
-Do not split the design into multiple markdown files.
+### Step 9.1 Retrieve Template
 
-Do not create:
+Retrieve:
+
+agents/architect/design-document-instructions.md
+
+Use this template to generate the complete System Design Document.
+
+---
+
+### Step 9.2 Build Document Content
+
+Generate ONE complete document.
+
+Do NOT split the document into:
+
 - System-Design-Document-Part1-Sections-1-3.md
 - System-Design-Document-Part2-Section-4.md
 - System-Design-Document-Part3-Section-5.md
 - System-Design-Document-Part4-Sections-6-9.md
 
-Instead generate ONE document:
+Generate only:
+
 System-Design-Document.md
 
-Then call:
-generate_and_commit_system_design_document(
-  repository_name=<repository>,
-  epic_id=<epicId>,
-  document_markdown=<complete document>,
-  branch=<branch>,
-  document_title="System Design Document - <Epic title>"
-)
+Populate every section using:
 
-This tool generates:
-- System-Design-Document.md
-- System-Design-Document.docx
+- Epic
+- Features
+- User Stories
+- Acceptance Criteria
+- Architecture Decisions
+- Assumptions
+- Dependencies
+- NFRs
+- Traceability
 
-The architecture phase is not complete until both files exist in GitHub.
+Preserve every heading and subheading from
+design-document-instructions.md.
 
-Never split the design document across multiple files once this tool is available.
+---
 
+### Step 9.3 Build Tool Inputs
 
-1. Retrieve:
-
-   architect/design-document-instructions.md
-
-2. Generate the complete System Design Document
-   using the template.
-
-3. Preserve ALL headings and subheadings.
-### Step 9.4 Prepare Tool Inputs
- 
 Before calling
 generate_and_commit_system_design_document()
- 
-the Architect Agent MUST construct the following values:
- 
+
+construct:
+
 repository_name
-- Use the repository name returned by:
-create_or_get_project_repository()
- 
+    = repository.name returned by
+      create_or_get_project_repository()
+
 epic_id
-- Use the current Epic ID.
- 
+    = current Epic ID
+
 branch
-- Use the same branch where architecture diagrams were committed.
- 
-document_markdown
-- Create a single complete Markdown document.
-- Merge all generated design content into one Markdown artifact.
-- Do not split content into multiple files.
-- Include every section from:
-design-document-instructions.md
- 
+    = branch used by
+      render_and_commit_architecture_diagrams()
+
 document_title
-- Use:
-"System Design Document - <Epic Title>"
- 
+    = System Design Document - <Epic Title>
+
+document_markdown
+    = complete generated document
+
 diagram_mapping
-- Build from committed PNG files:
- 
-{
-"!Solution Architecture": "solution-architecture.png",
-"!Critical Workflow Sequence": "sequence.png",
-"!High-Level Flow": "system-context.png",
-"!Deployment Diagram": "deployment.png",
-"!CI/CD Pipeline": "cicd.png",
-"!Data Model": "data-model.png",
-"!Component Diagram": "component.png"
-}
-4. Populate every section using:
+    =
 
-   - Epic
-   - Features
-   - User Stories
-   - Acceptance Criteria
-   - Architecture Decisions
-   - Assumptions
-   - Dependencies
-   - NFRs
-   - Traceability
+    {
+      "!Solution Architecture":
+        "solution-architecture.png",
 
-5. Insert these placeholders:
+      "!Critical Workflow Sequence":
+        "sequence.png",
 
-   - !Solution Architecture
-   - !Critical Workflow Sequence
-   - !High-Level Flow
-   - !Deployment Diagram
-   - !CI/CD Pipeline
-   - !Data Model
-   - !Component Diagram
+      "!High-Level Flow":
+        "system-context.png",
 
-6. Call:
+      "!Deployment Diagram":
+        "deployment.png",
 
-   generate_and_commit_system_design_document(
-    repository_name=<confirmed repository name>,
-    epic_id=<actual Epic ID>,
-    document_markdown=<complete_system_design_document>,
-    branch=<same branch containing committed architecture diagrams>,
-    document_title="System Design Document - <Epic Title>",
-    diagram_mapping={
-        "!Solution Architecture": "solution-architecture.png",
-        "!Critical Workflow Sequence": "sequence.png",
-        "!High-Level Flow": "system-context.png",
-        "!Deployment Diagram": "deployment.png",
-        "!CI/CD Pipeline": "cicd.png",
-        "!Data Model": "data-model.png",
-        "!Component Diagram": "component.png"
-    },
-    commit_message="docs: add System Design Document for Epic <epicId>"
+      "!CI/CD Pipeline":
+        "cicd.png",
+
+      "!Data Model":
+        "data-model.png",
+
+      "!Component Diagram":
+        "component.png"
+    }
+
+---
+
+### Step 9.4 Validation Before Tool Call
+
+Verify:
+
+✓ repository_name exists
+
+✓ epic_id exists
+
+✓ document_markdown exists
+
+✓ branch exists
+
+If any value is missing:
+
+STOP
+
+Return:
+
+DOCUMENT GENERATION FAILED
+
+and list the missing fields.
+
+Do NOT call the tool with empty parameters.
+
+---
+
+### Step 9.5 Generate Final Document
+
+Call:
+
+generate_and_commit_system_design_document(
+    repository_name=<repository_name>,
+    epic_id=<epic_id>,
+    document_markdown=<complete_document_markdown>,
+    branch=<branch>,
+    document_title=<document_title>,
+    diagram_mapping=<diagram_mapping>
 )
 
-7. The generate_and_commit_system_design_document() tool must:
+---
 
-Read the PNG diagram files already committed to GitHub.
-Embed those exact PNG files into the Word document.
-Generate:
-  1.System-Design-Document.md
-  2.System-Design-Document.docx
-Commit both files to GitHub.
-Return the GitHub URLs and commit information.
+### Step 9.6 Success Criteria
 
-Do not generate replacement diagrams during document generation.
-Do not regenerate diagrams from Mermaid.
-Always use the committed PNG artifacts.
+The step succeeds only when:
 
+success=true
 
+commit_sha exists
 
+document.markdown_path exists
 
-8. Return:
+document.markdown_url exists
 
-   - Markdown URL
-   - DOCX URL
-   - DOCX Download URL
-   - Commit SHA
+document.docx_path exists
 
-The document is not considered complete until
-both Markdown and DOCX versions exist in GitHub.
+document.docx_url exists
 
+document.docx_download_url exists
+
+document.embedded_diagram_count exists
+
+---
+
+### Step 9.7 Completion Rule
+
+Architecture is not complete until GitHub contains:
+
+- System-Design-Document.md
+- System-Design-Document.docx
+- all .png files
+- all .mmd files
+
+Do not report Success before all artifacts exist.
 
 ### Step 10: Create the Azure DevOps Architecture Work Item
 
