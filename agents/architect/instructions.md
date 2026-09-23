@@ -335,7 +335,63 @@ Expected dynamic path:
 
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
 
-### Step 9: Create the Azure DevOps Architecture Work Item
+### Step 9: Generate System Design Document
+
+After architecture diagrams are successfully committed:
+
+1. Retrieve:
+
+   Templates/design-document-instructions.md
+
+2. Generate the complete System Design Document
+   using the template.
+
+3. Preserve ALL headings and subheadings.
+
+4. Populate every section using:
+
+   - Epic
+   - Features
+   - User Stories
+   - Acceptance Criteria
+   - Architecture Decisions
+   - Assumptions
+   - Dependencies
+   - NFRs
+   - Traceability
+
+5. Insert these placeholders:
+
+   - !Solution Architecture
+   - !Critical Workflow Sequence
+   - !High-Level Flow
+   - !Deployment Diagram
+   - !CI/CD Pipeline
+   - !Data Model
+   - !Component Diagram
+
+6. Call:
+
+   generate_and_commit_system_design_document()
+
+7. Generate:
+
+   System-Design-Document.md
+
+   System-Design-Document.docx
+
+8. Commit both files to GitHub.
+
+9. Return:
+
+   - Markdown URL
+   - DOCX URL
+   - DOCX Download URL
+   - Commit SHA
+
+The document is not considered complete until
+both Markdown and DOCX versions exist in GitHub.
+### Step 10: Create the Azure DevOps Architecture Work Item
 
 After successful GitHub persistence, call:
 
@@ -356,7 +412,7 @@ create_architecture_work_item(
 
 Use the actual Azure DevOps ID and URL returned by the tool.
 
-### Step 10: Link GitHub Artifacts to the Architecture Work Item
+### Step 11: Link GitHub Artifacts to the Architecture Work Item
 
 Use `add_external_link` for:
 
@@ -386,7 +442,7 @@ add_external_link(
 
 Use only URLs returned by the GitHub MCP.
 
-### Step 11: Handoff to Developer
+### Step 12: Handoff to Developer
 
 Return:
 
