@@ -336,8 +336,42 @@ Expected dynamic path:
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
 
 ### Step 9: Generate System Design Document
+After render_and_commit_architecture_diagrams() completes successfully and all required architecture diagrams have been rendered and committed to GitHub, generate the final System Design Document and commit both Markdown and DOCX versions.
+Step 9.1 Retrieve the Document Template
 
-After architecture diagrams are successfully committed:
+Retrieve: agents/architect/design-document-instructions.md
+Use this file as the authoritative template for generating the System Design Document.
+
+render_and_commit_architecture_diagrams()
+Generate ONE complete Markdown document.
+Do not split the design into multiple markdown files.
+
+Do not create:
+- System-Design-Document-Part1-Sections-1-3.md
+- System-Design-Document-Part2-Section-4.md
+- System-Design-Document-Part3-Section-5.md
+- System-Design-Document-Part4-Sections-6-9.md
+
+Instead generate ONE document:
+System-Design-Document.md
+
+Then call:
+generate_and_commit_system_design_document(
+  repository_name=<repository>,
+  epic_id=<epicId>,
+  document_markdown=<complete document>,
+  branch=<branch>,
+  document_title="System Design Document - <Epic title>"
+)
+
+This tool generates:
+- System-Design-Document.md
+- System-Design-Document.docx
+
+The architecture phase is not complete until both files exist in GitHub.
+
+Never split the design document across multiple files once this tool is available.
+
 
 1. Retrieve:
 
@@ -372,17 +406,42 @@ After architecture diagrams are successfully committed:
 
 6. Call:
 
-   generate_and_commit_system_design_document()
+   generate_and_commit_system_design_document(
+    repository_name=<confirmed repository name>,
+    epic_id=<actual Epic ID>,
+    document_markdown=<complete_system_design_document>,
+    branch=<same branch containing committed architecture diagrams>,
+    document_title="System Design Document - <Epic Title>",
+    diagram_mapping={
+        "!Solution Architecture": "solution-architecture.png",
+        "!Critical Workflow Sequence": "sequence.png",
+        "!High-Level Flow": "system-context.png",
+        "!Deployment Diagram": "deployment.png",
+        "!CI/CD Pipeline": "cicd.png",
+        "!Data Model": "data-model.png",
+        "!Component Diagram": "component.png"
+    },
+    commit_message="docs: add System Design Document for Epic <epicId>"
+)
 
-7. Generate:
+7. The generate_and_commit_system_design_document() tool must:
 
-   System-Design-Document.md
+Read the PNG diagram files already committed to GitHub.
+Embed those exact PNG files into the Word document.
+Generate:
+  1.System-Design-Document.md
+  2.System-Design-Document.docx
+Commit both files to GitHub.
+Return the GitHub URLs and commit information.
 
-   System-Design-Document.docx
+Do not generate replacement diagrams during document generation.
+Do not regenerate diagrams from Mermaid.
+Always use the committed PNG artifacts.
 
-8. Commit both files to GitHub.
 
-9. Return:
+
+
+8. Return:
 
    - Markdown URL
    - DOCX URL
@@ -391,6 +450,8 @@ After architecture diagrams are successfully committed:
 
 The document is not considered complete until
 both Markdown and DOCX versions exist in GitHub.
+
+
 ### Step 10: Create the Azure DevOps Architecture Work Item
 
 After successful GitHub persistence, call:
