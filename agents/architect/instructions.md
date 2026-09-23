@@ -341,7 +341,7 @@ After architecture diagrams are successfully committed:
 
 1. Retrieve:
 
-   Templates/design-document-instructions.md
+   architect/design-document-instructions.md
 
 2. Generate the complete System Design Document
    using the template.
