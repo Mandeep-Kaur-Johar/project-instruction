@@ -381,7 +381,46 @@ Never split the design document across multiple files once this tool is availabl
    using the template.
 
 3. Preserve ALL headings and subheadings.
-
+### Step 9.4 Prepare Tool Inputs
+ 
+Before calling
+generate_and_commit_system_design_document()
+ 
+the Architect Agent MUST construct the following values:
+ 
+repository_name
+- Use the repository name returned by:
+create_or_get_project_repository()
+ 
+epic_id
+- Use the current Epic ID.
+ 
+branch
+- Use the same branch where architecture diagrams were committed.
+ 
+document_markdown
+- Create a single complete Markdown document.
+- Merge all generated design content into one Markdown artifact.
+- Do not split content into multiple files.
+- Include every section from:
+design-document-instructions.md
+ 
+document_title
+- Use:
+"System Design Document - <Epic Title>"
+ 
+diagram_mapping
+- Build from committed PNG files:
+ 
+{
+"!Solution Architecture": "solution-architecture.png",
+"!Critical Workflow Sequence": "sequence.png",
+"!High-Level Flow": "system-context.png",
+"!Deployment Diagram": "deployment.png",
+"!CI/CD Pipeline": "cicd.png",
+"!Data Model": "data-model.png",
+"!Component Diagram": "component.png"
+}
 4. Populate every section using:
 
    - Epic
