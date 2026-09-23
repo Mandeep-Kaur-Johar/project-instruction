@@ -338,45 +338,39 @@ GitHub creates directories from committed file paths. Do not attempt to create e
 ## Step 9: Generate and Commit the System Design Document
 
 After `render_and_commit_architecture_diagrams()` returns `success=true`,
-generate the complete System Design Document using:
+generate the final System Design Document.
 
-```text
-agents/architect/design-document-instructions.md
-```
+---
 
 ### Step 9.1 Retrieve Template
 
 Retrieve:
-
 ```text
 agents/architect/design-document-instructions.md
 ```
 
-Use this file as the authoritative template.
+Use this file as the authoritative document-generation template.
 
 ---
 
 ### Step 9.2 Generate Document Sections
 
 Generate the complete System Design Document.
-
-Preserve all headings and subheadings from the template.
-
+Preserve ALL headings and subheadings from the template.
 Use:
-
 - Epic
 - Features
 - User Stories
 - Acceptance Criteria
 - Architecture Decisions
+- Security Requirements
+- Integration Requirements
 - Assumptions
 - Dependencies
-- Security Requirements
 - NFRs
 - Traceability Information
 
-If the complete document is large, generate it in multiple Markdown files:
-
+If the completed document becomes large, generate and commit it as the following Markdown parts:
 ```text
 System-Design-Document-Part1-Sections-1-3.md
 System-Design-Document-Part2-Section-4.md
@@ -384,14 +378,13 @@ System-Design-Document-Part3-Section-5.md
 System-Design-Document-Part4-Sections-6-9.md
 ```
 
-Commit these files to GitHub.
+Commit all document parts to GitHub before proceeding.
 
 ---
 
 ### Step 9.3 Insert Diagram Placeholders
 
-Insert the following placeholders where applicable:
-
+Insert these exact placeholders into the generated document content:
 ```text
 - !Solution Architecture
 - !Critical Workflow Sequence
@@ -402,44 +395,71 @@ Insert the following placeholders where applicable:
 - !Component Diagram
 ```
 
-These placeholders correspond to PNG files already committed by:
+These placeholders correspond to PNG files already created by:
 
 ```text
+render_and_commit_architecture_diagrams()
+```
+---
+
+### Step 9.4 Build Tool Inputs
+
+Construct the following values from previous workflow steps.
+```text
+repository_name
+```
+
+Use:
+```text
+repository.name
+```
+
+returned by:
+```text
+create_or_get_project_repository()
+```
+---
+
+```text
+epic_id
+```
+
+Use:
+```text
+current Epic ID
+```
+retrieved from Azure DevOps.
+
+---
+
+```text
+branch
+```
+
+Use:
+```text
+branch used by
 render_and_commit_architecture_diagrams()
 ```
 
 ---
 
-### Step 9.4 Build Tool Inputs
-
-Before calling
-`generate_and_commit_system_design_document()`
-
-construct:
-
 ```text
-repository_name
-    = repository.name returned from
-      create_or_get_project_repository()
-
-epic_id
-    = current Epic ID
-
-branch
-    = branch used by
-      render_and_commit_architecture_diagrams()
-
 document_title
-    = System Design Document - <Epic Title>
 ```
 
-Construct:
+Use:
+```text
+System Design Document - <Epic Title>
+```
+
+---
 
 ```text
 document_paths
 ```
 
-using the committed Markdown files:
+Use the actual committed Markdown files:
 
 ```text
 [
@@ -450,7 +470,13 @@ using the committed Markdown files:
 ]
 ```
 
-Construct:
+---
+
+```text
+diagram_mapping
+```
+
+Use:
 
 ```json
 {
@@ -466,21 +492,22 @@ Construct:
 
 ---
 
-### Step 9.5 Validation Before Tool Call
+### Step 9.5 Validate Inputs Before Tool Call
 
 Verify:
-
 ✅ repository_name exists
-
 ✅ epic_id exists
-
 ✅ branch exists
-
+✅ document_title exists
 ✅ document_paths exists
-
 ✅ document_paths is not empty
+✅ every document path exists in GitHub
+✅ diagram_mapping exists
+✅ PNG files referenced by diagram_mapping exist in GitHub
 
-If any value is missing:
+---
+
+If any validation fails:
 
 STOP
 
@@ -490,13 +517,47 @@ Return:
 DOCUMENT GENERATION FAILED
 ```
 
-and list the missing inputs.
+and list all missing inputs and artifacts.
 
-Do not call the tool with empty arguments.
+Never continue.
 
 ---
 
-### Step 9.6 Generate Final Document
+### Step 9.6 Mandatory Invocation Payload
+
+Before calling the tool, internally construct this payload:
+
+```json
+{
+  "repository_name": "<repository_name>",
+  "epic_id": <epic_id>,
+  "document_paths": [
+    "<part1>",
+    "<part2>",
+    "<part3>",
+    "<part4>"
+  ],
+  "branch": "<branch>",
+  "document_title": "<document_title>",
+  "diagram_mapping": {
+    "!Solution Architecture": "diagram-architecture.png",
+    "!Critical Workflow Sequence": "diagram-sequence.png",
+    "!High-Level Flow": "diagram-highlevel.png",
+    "!Deployment Diagram": "diagram-deployment.png",
+    "!CI/CD Pipeline": "diagram-cicd.png",
+    "!Data Model": "diagram-datamodel.png",
+    "!Component Diagram": "diagram-component.png"
+  }
+}
+```
+
+Verify that no field is empty before execution.
+
+Do not continue otherwise.
+
+---
+
+### Step 9.7 Generate Final Document
 
 Call:
 
@@ -511,79 +572,29 @@ generate_and_commit_system_design_document(
 )
 ```
 
-Do NOT pass the complete document through:
+Never call:
 
 ```text
-document_markdown
+generate_and_commit_system_design_document()
 ```
 
-when the document is stored in GitHub.
+with empty arguments.
 
-The MCP server must retrieve and merge the document files server-side.
+Never call:
+
+```json
+{}
+```
+
+The MCP server must retrieve document parts from GitHub and merge them server-side.
 
 ---
 
-### Step 9.7 Generated Outputs
-
-The tool must generate:
-
-```text
-System-Design-Document.md
-
-System-Design-Document.docx
-```
+### Step 9.8 Tool Responsibilities
 
 The tool must:
 
-1. Read committed document parts.
-2. Merge them.
-3. Read committed PNG files.
-4. Embed PNGs into DOCX.
-5. Generate Markdown.
-6. Generate DOCX.
-7. Commit both files.
-
----
-
-### Step 9.8 Success Criteria
-
-The step succeeds only when:
-
-```text
-success=true
-
-commit_sha exists
-
-document.markdown_path exists
-
-document.markdown_url exists
-
-document.docx_path exists
-
-document.docx_url exists
-
-document.docx_download_url exists
-
-document.embedded_diagram_count exists
-```
-
----
-
-### Step 9.9 Completion Rule
-
-The Architecture phase is NOT complete until GitHub contains:
-
-```text
-System-Design-Document.md
-
-System-Design-Document.docx
-
-all .png files
-
-all .mmd files
-```
-
-Do not report Success before all artifacts exist.
+1. Read committed
 
 ### Step 10: Create the Azure DevOps Architecture Work Item
 
