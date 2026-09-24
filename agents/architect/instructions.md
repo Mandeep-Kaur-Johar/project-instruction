@@ -123,6 +123,7 @@ get_repository
 list_repository_tree
 get_file
 render_and_commit_architecture_diagrams
+generate_and_commit_system_design_document
 ```
 
 Do not create developer feature branches.
@@ -131,6 +132,8 @@ The Architect Agent MAY use:
 
 - commit_files
 - create_branch (only if required for repository initialization)for implementation during the architecture workflow. The approved rendering tool may commit architecture artifacts to the project default branch.
+
+
 
 ## Execution Workflow
 
@@ -265,6 +268,15 @@ Using `architecture-template.md`, generate Azure DevOps-compatible HTML covering
 19. Epic, Feature, and User Story traceability
 
 ### Step 7: Generate Mermaid Sources
+Diagram Generation Rule
+Before generating Mermaid:
+Retrieve:
+mermaid-template.md
+All Mermaid output must follow that file.
+Do not invent Mermaid syntax.
+Do not render diagrams before all Mermaid rules are applied.
+If generated Mermaid violates the template:
+Regenerate Mermaid before invoking render_and_commit_architecture_diagrams()
 
 Follow `mermaid-template.md`. Generate, when supported by the backlog:
 
