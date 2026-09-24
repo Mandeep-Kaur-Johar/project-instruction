@@ -1,29 +1,7 @@
 ---
 applyTo: '**'
 ---
-## Document Size Rules
 
-Generate a concise enterprise System Design Document.
-
-Target:
-
-- 10–20 pages
-- 2,000–5,000 words
-
-Avoid:
-
-- repeating requirements
-- repeating story descriptions
-- repeating business context
-- excessively verbose explanations
-
-Prioritize:
-
-- architecture decisions
-- implementation readiness
-- traceability
-- operational considerations
-- 
 # Generate System Design Document (General SDLC Template)
 
 ## Objective
@@ -32,7 +10,7 @@ This file is a **reusable master template and instruction set** for generating a
 Wherever this template says **"Source Requirement"**, substitute whatever unit of work is actually driving the document (Epic, Story, Task, Feature, Use Case). Wherever it says **"Source ID"**, substitute the corresponding identifier from whatever tracking system is in use.
 
 ## Execution Principles (MANDATORY)
-- Mention the content, which is important keep it short yet meaningful. Do not overexplain or explain too much. Keep short lines, do not mention paragraphs.
+- Mention the content, which is important keep it short yet meaningful. Do not over explain or explain too much. Keep short lines, do not mention paragraphs.
 - Never leave a heading or subheading without content. Every section must be populated with rich, descriptive, implementation-ready content.
 - Use the Source Requirement's title and description as the primary input for content generation. If details are incomplete, synthesize reasonable content and clearly label it as an **assumption**.
 - Preserve **all headings exactly as numbered** below — do not rename, reorder, merge, or omit them.
