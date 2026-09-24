@@ -318,11 +318,34 @@ Prepare:
 
 ```json
 [
-  {"name": "system-context", "mermaid": "complete source"},
-  {"name": "solution-architecture", "mermaid": "complete source"},
-  {"name": "sequence", "mermaid": "complete source"},
-  {"name": "data-model", "mermaid": "complete source"},
-  {"name": "deployment", "mermaid": "complete source"}
+  {
+    "name": "diagram-highlevel",
+    "mermaid": "system context source"
+  },
+  {
+    "name": "diagram-architecture",
+    "mermaid": "solution architecture source"
+  },
+  {
+    "name": "diagram-component",
+    "mermaid": "component source"
+  },
+  {
+    "name": "diagram-sequence",
+    "mermaid": "sequence source"
+  },
+  {
+    "name": "diagram-datamodel",
+    "mermaid": "data model source"
+  },
+  {
+    "name": "diagram-deployment",
+    "mermaid": "deployment source"
+  },
+  {
+    "name": "diagram-cicd",
+    "mermaid": "CI/CD source"
+  }
 ]
 ```
 ### Diagram Complexity Requirements (MANDATORY)
@@ -468,16 +491,20 @@ Expected dynamic path:
 └── docs/
     └── architecture/
         └── epic-<epicId>/
-            ├── system-context.mmd
-            ├── system-context.png
-            ├── solution-architecture.mmd
-            ├── solution-architecture.png
-            ├── sequence.mmd
-            ├── sequence.png
-            ├── data-model.mmd
-            ├── data-model.png
-            ├── deployment.mmd
-            └── deployment.png
+            ├── diagram-highlevel.mmd
+            ├── diagram-highlevel.png
+            ├── diagram-architecture.mmd
+            ├── diagram-architecture.png
+            ├── diagram-component.mmd
+            ├── diagram-component.png
+            ├── diagram-sequence.mmd
+            ├── diagram-sequence.png
+            ├── diagram-datamodel.mmd
+            └── diagram-datamodel.png
+                diagram-deployment.mmd
+                diagram-deployment.png
+                diagram-cicd.mmd
+                diagram-cicd.png
 ```
 
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
