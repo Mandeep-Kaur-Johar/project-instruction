@@ -25,24 +25,22 @@ Title: **System Design Document**
 
 # **1. Introduction**
 ## **1.1 Purpose**
-- State the business problem and the measurable outcome the system addresses. Reference the Source Requirement title for traceability.
-## **1.2 Background**
-- Context: existing systems, stakeholders, prior decisions, and any compliance drivers relevant to the Source Requirement.
-## **1.3 Scope**
-- **Functional Scope**: Features derived from the Source Requirement (e.g., login, notifications, integrations); list major modules and their boundaries.
-- **Non-Functional Scope**: Security (authN/authZ, encryption), compliance (e.g., PCI, GDPR, HIPAA as applicable).
+- Provide the business problem in 2 lines.
+
+## **1.2 Scope**
+- **Functional Scope**: Features derived from the Source Requirement in max 2 lines.
+- **Non-Functional Scope**: Security, compliance.
 - **In-Scope Integrations**: APIs, third-party services, internal systems required for the end-to-end flow.
 - **Out-of-Scope Items**: Explicit exclusions (e.g., mobile UI if only backend is in scope).
 - **Assumptions & Constraints**: Dependencies on external teams, vendor SLAs, platform limitations.
-- **Traceability**: Map each scope item back to its Source ID for audit and clarity.
-## **1.4 Methodology**
+
+## **1.3 Methodology**
 - SDLC approach used (Agile, Kanban, Waterfall, hybrid), design review process, architecture decision records (ADRs), and tooling used to produce this document.
 
 # **2. System Architecture**
-## **2.1 Hardware Architecture**
-- Environments/topology, instance sizing assumptions, regions, high-availability approach.
-## **2.2 Software Architecture**
-- 10–20 lines describing the logical view: components, interfaces, protocols.
+
+## **2.1 Software Architecture**
+- 5–10 lines describing the logical view: components, interfaces, protocols.
 - `- !Solution Architecture`
 - Add a short caption and description explaining the diagram's business meaning.
 - **Fallback**: If an image cannot be produced, include a Mermaid/PlantUML diagram plus a clear textual description.
@@ -51,70 +49,47 @@ Title: **System Design Document**
 ## **3.1 Software Detailed Design**
 - Class/module breakdown, key algorithms, API contracts, error handling, idempotency, retries, caching/invalidation strategy.
 - `- !Critical Workflow Sequence`
-- Add a short caption and description.
+- Add a short caption and description in 2 lines.
 - **Fallback**: Mermaid/PlantUML sequence or class diagram plus textual description if an image is unavailable.
 
 # **4. Technical Design Specification**
-*(MANDATORY: for each subsection below, include 20–25 lines of concrete, defensible detail — measurable values, named resources, version numbers, thresholds, and explicit ownership. Bullet points only in this section; no paragraphs.)*
+*(MANDATORY: for each subsection below, include 5 lines of concrete, defensible detail — measurable values, named resources, version numbers, thresholds, and explicit ownership. Bullet points only in this section; no paragraphs.)*
 
 ## **4.1 Integration Plan**
-- 20–25 bullets covering API dependencies, data contracts, system interfaces, authentication methods, event flows, and measurable integration checkpoints.
+- 5 bullets covering API dependencies, data contracts, system interfaces, authentication methods, event flows, and measurable integration checkpoints.
 
 ## **4.2 Configuration Checklist**
-- 20–25 bullets listing mandatory configuration parameters: resource names, modules, variables, states, and version-controlled deployment requirements.
+- 5 bullets listing mandatory configuration parameters: resource names, modules, variables, states, and version-controlled deployment requirements.
 
 ## **4.3 Service Level Agreement**
-- 20–25 bullets defining concrete SLAs: latency thresholds, uptime targets, RTO/RPO, maintenance windows, escalation SLAs, quantitative performance guarantees.
+- 5 bullets defining concrete SLAs: latency thresholds, uptime targets, RTO/RPO, maintenance windows, escalation SLAs, quantitative performance guarantees.
 
-## **4.4 Mobile Application**
-- 20–25 bullets on mobile app architecture, SDK versions, APIs, security controls, caching, offline strategy, and telemetry. *(Omit or mark "Not Applicable" if the Source Requirement has no mobile component.)*
+## **4.4 Security & Compliance Architecture**
+- 5 bullets covering network segmentation, encryption standards, key rotation, compliance mappings, and policy enforcement mechanisms.
 
-## **4.5 Data Architecture & Governance**
-- 20–25 bullets on data models, retention rules, lineage mapping, PII handling, schema governance, encryption policies, and storage classifications.
+## **4.5 Workflow, Orchestration & Scheduling**
+- 5 bullets on workflow execution steps, orchestration tools, dependencies, scheduling intervals, retries, backoffs, and failure-handling paths.
 
-## **4.6 Security & Compliance Architecture**
-- 20–25 bullets covering network segmentation, encryption standards, key rotation, compliance mappings, and policy enforcement mechanisms.
+## **4.6 Release Management & Environment Strategy**
+- 5 bullets defining release pipelines, branching strategy, environment promotion rules, artifact versioning, approvals, and rollback procedures.
 
-### **4.6.1 Regulatory Requirements**
-- 20–25 bullets mapping explicit regulatory requirements to controls, evidence collection points, enforcement mechanisms, and mandated configurations.
+## **4.7 Testing Strategy & Quality Gates**
+- 5 bullets outlining testing stages, automation coverage thresholds, environment readiness gates, defect severity rules, and performance benchmarks.
 
-### **4.6.2 Audit, Logging & Monitoring**
-- 20–25 bullets specifying logging schemas, telemetry sources, audit retention policies, alert thresholds, and monitoring coverage.
-
-## **4.7 Workflow, Orchestration & Scheduling**
-- 20–25 bullets on workflow execution steps, orchestration tools, dependencies, scheduling intervals, retries, backoffs, and failure-handling paths.
-
-## **4.8 Release Management & Environment Strategy**
-- 20–25 bullets defining release pipelines, branching strategy, environment promotion rules, artifact versioning, approvals, and rollback procedures.
-
-## **4.9 Testing Strategy & Quality Gates**
-- 20–25 bullets outlining testing stages, automation coverage thresholds, environment readiness gates, defect severity rules, and performance benchmarks.
-
-## **4.10 API Design & Documentation**
-- 20–25 bullets defining API structure, versioning strategy, payload contracts, error schemas, rate limiting, documentation standards, SDK guidelines.
-- Include: style (REST/GraphQL), resource naming, endpoint list (path, method), status codes & error schema, pagination/filtering/sorting rules, idempotency keys, versioning scheme, auth scopes, rate limits, timeout budgets, caching headers, schema version, deprecation/sunset policy, request/response examples, webhooks (topics, retries), SDK support notes, API change review process, consistency rules, latency/error NFRs, documentation links, API ownership.
-
-## **4.11 Data Model & Schema Design**
-- Include: entity list with attributes (name/type/constraint), relationships & cardinalities, keys (PK/FK/unique), indexes, partition/shard strategy, concurrency control, transaction boundaries, versioned migration plan, DDL change policy, example queries and expected plans, storage engines, large-object handling, delete/archive policies, referential integrity rules, denormalization rationale, caching interactions, CDC stream mapping, validation rules, data ownership, performance SLAs.
-- `- !Data Model`
-- Add a short caption and description.
-- **Fallback**: Mermaid/PlantUML ER diagram plus textual description if an image is unavailable.
 
 # **5. Implementation Plan**
 ## **5.1 Phased Rollout Strategy**
-- 20–25 bullets, technical and implementation-ready (not generic), covering environments, timelines, dependencies, gates, and measurable advancement criteria.
+- 5-10 bullets, technical and implementation-ready (not generic), covering environments, timelines, dependencies, gates, and measurable advancement criteria.
 - Express all timelines in **weeks** (e.g., "Week 1–2: environment setup", "Week 3–4: integration testing").
 ## **5.2 Teams and Security Roles**
-- 20–25 bullets mapping teams and security roles to responsibilities, RBAC scopes, escalation paths, and ownership of platforms, environments, and pipelines.
+- 5-10 bullets mapping teams and security roles to responsibilities, RBAC scopes, escalation paths, and ownership of platforms, environments, and pipelines.
 
 # **6. Effort & Schedule Estimation**
 ## **6.1 Estimation Approach**
 - Explicitly mention story points, T-shirt sizing, and three-point estimates (Optimistic/Realistic/Pessimistic).
-## **6.2 Work Breakdown Structure (WBS)**
-- Map tasks to Source IDs with clear hierarchy and dependencies.
-## **6.3 Timeline & Milestones**
-- Milestones with start/end in weeks, dependencies, and critical-path analysis.
-- Measurable completion criteria and risk mitigation notes per milestone.
+
+## **6.2 Timeline & Milestones**
+- 5 bullets points Milestones with start/end in weeks, dependencies, and critical-path analysis.
 
 # **7. Assumptions & Dependencies**
 ## **7.1 Assumptions**
@@ -122,30 +97,25 @@ Title: **System Design Document**
 ## **7.2 External Dependencies**
 - Services, teams, contracts, vendor SLAs.
 
-# **8. Glossary & References**
-## **8.1 Acronyms & Terms**
-- e.g., P95, AOAI, DLQ, RBAC, RTO, RPO — define each on first use.
-## **8.2 External References**
-- Docs, standards, APIs, and any source materials cited.
 
-# **9. Appendices**
-## **9.1 Additional Diagrams**
+# **8. Appendices**
+## **8.1 Additional Diagrams**
 - Insert image placeholders:
   - `- !High-Level Flow`
   - `- !Deployment Diagram`
   - `- !CI/CD Pipeline`
 - Provide concise captions tying each diagram back to the Source Requirement context.
 - **Fallback**: Mermaid/PlantUML or textual diagram if images are unavailable.
-## **9.2 Configuration Samples & Scripts**
-## **9.3 Non-Functional Requirements Matrix**
-- Latency, availability, throughput, durability — tabulated with target values.
+
+
 
 ---
 
 ## Content Generation Rules (MANDATORY)
-- Expand every bullet placeholder into full descriptive content — minimum 20–25 lines per major section outside Section 4, 15 lines per subsection.
+
+- Expand every bullet placeholder into full descriptive content — minimum 2-5 lines per major section outside Section 4, 15 lines per subsection.
 - Use the Source Requirement's title/description as the primary source; synthesize meaningful context from it if details are missing.
-- Never leave a section empty — generate rich explanatory text instead of a skeleton.
+- Never leave a section empty — generate 1 liner text.
 - Headings and order must mirror this template exactly.
 - Provide exhaustive detail rather than summarizing.
 
