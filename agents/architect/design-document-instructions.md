@@ -1,6 +1,29 @@
 ---
 applyTo: '**'
 ---
+## Document Size Rules
+
+Generate a concise enterprise System Design Document.
+
+Target:
+
+- 10–20 pages
+- 2,000–5,000 words
+
+Avoid:
+
+- repeating requirements
+- repeating story descriptions
+- repeating business context
+- excessively verbose explanations
+
+Prioritize:
+
+- architecture decisions
+- implementation readiness
+- traceability
+- operational considerations
+- 
 # Generate System Design Document (General SDLC Template)
 
 ## Objective
@@ -53,7 +76,7 @@ Title: **System Design Document**
 - **Fallback**: Mermaid/PlantUML sequence or class diagram plus textual description if an image is unavailable.
 
 # **4. Technical Design Specification**
-*(MANDATORY: for each subsection below, include 5 lines of concrete, defensible detail — measurable values, named resources, version numbers, thresholds, and explicit ownership. Bullet points only in this section; no paragraphs.)*
+*(MANDATORY: fFor each subsection below, include 3–5 concise bullets, Focus on implementation-critical information only. — measurable values, named resources, version numbers, thresholds, and explicit ownership. Bullet points only in this section; no paragraphs.)*
 
 ## **4.1 Integration Plan**
 - 5 bullets covering API dependencies, data contracts, system interfaces, authentication methods, event flows, and measurable integration checkpoints.
@@ -113,11 +136,16 @@ Title: **System Design Document**
 
 ## Content Generation Rules (MANDATORY)
 
-- Expand every bullet placeholder into full descriptive content — minimum 2-5 lines per major section outside Section 4, 15 lines per subsection.
+- Expand every section with sufficient information to support implementation and review.
+ Target:
+- 3–5 lines per subsection
+- 5–8 lines per major section and Avoid repetition..
 - Use the Source Requirement's title/description as the primary source; synthesize meaningful context from it if details are missing.
 - Never leave a section empty — generate 1 liner text.
 - Headings and order must mirror this template exactly.
-- Provide exhaustive detail rather than summarizing.
+-Provide concise, implementation-ready detail.
+-Avoid unnecessary repetition.
+-Prefer short, actionable content over large narrative sections.
 
 ## Bullet Enrichment Rules
 - In Sections 4–9, keep content as bullets where specified, but make each bullet descriptive:
