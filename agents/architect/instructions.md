@@ -123,7 +123,6 @@ get_repository
 list_repository_tree
 get_file
 render_and_commit_architecture_diagrams
-generate_and_commit_system_design_document
 ```
 
 Do not create developer feature branches.
@@ -132,8 +131,6 @@ The Architect Agent MAY use:
 
 - commit_files
 - create_branch (only if required for repository initialization)for implementation during the architecture workflow. The approved rendering tool may commit architecture artifacts to the project default branch.
-
-
 
 ## Execution Workflow
 
@@ -268,15 +265,6 @@ Using `architecture-template.md`, generate Azure DevOps-compatible HTML covering
 19. Epic, Feature, and User Story traceability
 
 ### Step 7: Generate Mermaid Sources
-Diagram Generation Rule
-Before generating Mermaid:
-Retrieve:
-mermaid-template.md
-All Mermaid output must follow that file.
-Do not invent Mermaid syntax.
-Do not render diagrams before all Mermaid rules are applied.
-If generated Mermaid violates the template:
-Regenerate Mermaid before invoking render_and_commit_architecture_diagrams()
 
 Follow `mermaid-template.md`. Generate, when supported by the backlog:
 
@@ -296,176 +284,18 @@ Diagrams must:
 - Be Kroki-safe.
 - Use approved starters only: `flowchart TD`, `flowchart TB`, `sequenceDiagram`, or `erDiagram`.
 - Avoid duplicate IDs, raw URL nodes, scripts, and HTML anchor markup.
-### Diagram Differentiation Validation
 
-Before invoking:
-
-render_and_commit_architecture_diagrams()
-
-Verify:
-
-✅ System Context Diagram focuses on actors and external systems.
-✅ Solution Architecture Diagram focuses on architectural layers.
-✅ Component Diagram focuses on internal application modules.
-✅ Sequence Diagram focuses on runtime interactions.
-✅ Data Model Diagram focuses on entities and relationships.
-✅ Deployment Diagram focuses on infrastructure.
-✅ CI/CD Diagram focuses on delivery automation.
-If two diagrams are substantially similar:
-
-Regenerate the diagram before rendering.
 Prepare:
 
 ```json
 [
-  {
-    "name": "diagram-highlevel",
-    "mermaid": "system context source"
-  },
-  {
-    "name": "diagram-architecture",
-    "mermaid": "solution architecture source"
-  },
-  {
-    "name": "diagram-component",
-    "mermaid": "component source"
-  },
-  {
-    "name": "diagram-sequence",
-    "mermaid": "sequence source"
-  },
-  {
-    "name": "diagram-datamodel",
-    "mermaid": "data model source"
-  },
-  {
-    "name": "diagram-deployment",
-    "mermaid": "deployment source"
-  },
-  {
-    "name": "diagram-cicd",
-    "mermaid": "CI/CD source"
-  }
+  {"name": "system-context", "mermaid": "complete source"},
+  {"name": "solution-architecture", "mermaid": "complete source"},
+  {"name": "sequence", "mermaid": "complete source"},
+  {"name": "data-model", "mermaid": "complete source"},
+  {"name": "deployment", "mermaid": "complete source"}
 ]
 ```
-### Diagram Complexity Requirements (MANDATORY)
-
-Each diagram must contain sufficient architectural detail.
-
-#### System Context Diagram
-
-Include:
-
-- Human actors
-- External systems
-- Third-party integrations
-- The platform boundary
-
-Minimum nodes: 6
-
-Do not include implementation details.
-
----
-
-#### Solution Architecture Diagram
-
-Include:
-
-- Frontend Layer
-- API Layer
-- Backend Services
-- Security Layer
-- Data Layer
-- Observability Layer
-- Integration Layer
-
-Minimum nodes: 12
-
-Use subgraphs.
-
----
-
-#### Component Diagram
-
-Include:
-
-- Controllers
-- Services
-- Repositories
-- Validators
-- Workers
-- Internal Components
-
-Minimum nodes: 10
-
-Do not duplicate the Solution Architecture Diagram.
-
----
-
-#### Sequence Diagram
-
-Include:
-
-- Actor
-- Frontend
-- API
-- Service
-- Database
-
-Minimum interactions: 8
-
-Show validation and response flow.
-
----
-
-#### Data Model Diagram
-
-Include:
-
-- Minimum 4 entities
-- Relationships
-- Cardinalities
-- PK and FK indicators
-
-Do not generate a two-entity model unless the Epic genuinely contains only two entities.
-
----
-
-#### Deployment Diagram
-
-Include:
-
-- User Entry Point
-- Frontend Hosting
-- API Hosting
-- Database
-- Security
-- Monitoring
-
-Minimum nodes: 8
-
----
-
-#### CI/CD Diagram
-
-Include:
-
-- Source Control
-- Build
-- Unit Test
-- Security Scan
-- Package
-- Deployment
-- Monitoring
-
-Minimum nodes: 7
-
-Do not generate:
-
-GitHub → Build → Deploy
-
-as the complete diagram.
-
 
 ### Step 8: Render and Commit Diagrams
 
@@ -491,20 +321,16 @@ Expected dynamic path:
 └── docs/
     └── architecture/
         └── epic-<epicId>/
-            ├── diagram-highlevel.mmd
-            ├── diagram-highlevel.png
-            ├── diagram-architecture.mmd
-            ├── diagram-architecture.png
-            ├── diagram-component.mmd
-            ├── diagram-component.png
-            ├── diagram-sequence.mmd
-            ├── diagram-sequence.png
-            ├── diagram-datamodel.mmd
-            └── diagram-datamodel.png
-                diagram-deployment.mmd
-                diagram-deployment.png
-                diagram-cicd.mmd
-                diagram-cicd.png
+            ├── system-context.mmd
+            ├── system-context.png
+            ├── solution-architecture.mmd
+            ├── solution-architecture.png
+            ├── sequence.mmd
+            ├── sequence.png
+            ├── data-model.mmd
+            ├── data-model.png
+            ├── deployment.mmd
+            └── deployment.png
 ```
 
 GitHub creates directories from committed file paths. Do not attempt to create empty folders.
@@ -925,4 +751,3 @@ The workflow is fully complete only when:
 - A Developer handoff returned the same repository.
 
 Never report full completion while a required creation, rendering, commit, work-item, or linking failure remains unresolved.
-
