@@ -296,7 +296,24 @@ Diagrams must:
 - Be Kroki-safe.
 - Use approved starters only: `flowchart TD`, `flowchart TB`, `sequenceDiagram`, or `erDiagram`.
 - Avoid duplicate IDs, raw URL nodes, scripts, and HTML anchor markup.
+### Diagram Differentiation Validation
 
+Before invoking:
+
+render_and_commit_architecture_diagrams()
+
+Verify:
+
+✅ System Context Diagram focuses on actors and external systems.
+✅ Solution Architecture Diagram focuses on architectural layers.
+✅ Component Diagram focuses on internal application modules.
+✅ Sequence Diagram focuses on runtime interactions.
+✅ Data Model Diagram focuses on entities and relationships.
+✅ Deployment Diagram focuses on infrastructure.
+✅ CI/CD Diagram focuses on delivery automation.
+If two diagrams are substantially similar:
+
+Regenerate the diagram before rendering.
 Prepare:
 
 ```json
@@ -308,6 +325,124 @@ Prepare:
   {"name": "deployment", "mermaid": "complete source"}
 ]
 ```
+### Diagram Complexity Requirements (MANDATORY)
+
+Each diagram must contain sufficient architectural detail.
+
+#### System Context Diagram
+
+Include:
+
+- Human actors
+- External systems
+- Third-party integrations
+- The platform boundary
+
+Minimum nodes: 6
+
+Do not include implementation details.
+
+---
+
+#### Solution Architecture Diagram
+
+Include:
+
+- Frontend Layer
+- API Layer
+- Backend Services
+- Security Layer
+- Data Layer
+- Observability Layer
+- Integration Layer
+
+Minimum nodes: 12
+
+Use subgraphs.
+
+---
+
+#### Component Diagram
+
+Include:
+
+- Controllers
+- Services
+- Repositories
+- Validators
+- Workers
+- Internal Components
+
+Minimum nodes: 10
+
+Do not duplicate the Solution Architecture Diagram.
+
+---
+
+#### Sequence Diagram
+
+Include:
+
+- Actor
+- Frontend
+- API
+- Service
+- Database
+
+Minimum interactions: 8
+
+Show validation and response flow.
+
+---
+
+#### Data Model Diagram
+
+Include:
+
+- Minimum 4 entities
+- Relationships
+- Cardinalities
+- PK and FK indicators
+
+Do not generate a two-entity model unless the Epic genuinely contains only two entities.
+
+---
+
+#### Deployment Diagram
+
+Include:
+
+- User Entry Point
+- Frontend Hosting
+- API Hosting
+- Database
+- Security
+- Monitoring
+
+Minimum nodes: 8
+
+---
+
+#### CI/CD Diagram
+
+Include:
+
+- Source Control
+- Build
+- Unit Test
+- Security Scan
+- Package
+- Deployment
+- Monitoring
+
+Minimum nodes: 7
+
+Do not generate:
+
+GitHub → Build → Deploy
+
+as the complete diagram.
+
 
 ### Step 8: Render and Commit Diagrams
 
