@@ -1,6 +1,16 @@
+---
+applyTo: '**'
+---
 # User Story Template
 
-> **Instructions for use:** This file defines the standard structure every user story must follow. When generating a new user story, populate each section below using information gathered from the requester/context. Do not omit sections — if information is unavailable, mark it `TBD` and add it to **Open Questions**. Keep field labels exactly as shown so downstream tooling can parse them consistently.
+> **Instructions for use:** This file defines the standard structure every user story must follow. When generating a new user story, populate each section below using information gathered from the requester/context (or from the parent Epic/Feature). Do not omit sections — if information is unavailable, mark it `TBD` and add it to **Open Questions**. Keep field labels exactly as shown so downstream tooling can parse them consistently.
+
+## EXECUTION ASSURANCE (MANDATORY)
+- **Never skip or thin out Acceptance Criteria or Non-Functional Requirements.** These two sections are the most commonly dropped or under-filled sections and must always be fully populated, in the exact format specified below, regardless of how sparse the source input is.
+- Use the parent Epic/Feature title and description as the primary source for context. If the story was generated as part of an Epic breakdown, inherit the Epic's NFR baseline (performance, security, compliance targets) and narrow it to what this specific story touches — do not leave NFRs blank just because the Epic covers them generically.
+- If input is insufficient to write a concrete Acceptance Criterion or NFR, synthesize a defensible default based on the story's scenario and label it `(assumption)` — do not delete the field or leave it empty.
+- Preserve all headings and field labels exactly as shown; do not rename, reorder, or merge sections.
+- Execution is non-interactive and deterministic: given the same input, produce the same structure every time.
 
 ---
 
@@ -37,28 +47,36 @@
 
 ---
 
-### **Acceptance Criteria**
-> Use Given/When/Then format. Include as many conditions as needed.
+### **Acceptance Criteria** *(MANDATORY — minimum 3 criteria, Given/When/Then format)*
+> This section must never be left with fewer than 3 conditions, even for a small story. Cover at minimum: (1) the primary happy-path scenario, (2) one edge case or validation failure, (3) one negative/error scenario. Each criterion must be independently testable.
 
-- [Condition 1]
+- **AC1 — [short label, e.g. "Successful submission"]**
   **Given** [precondition],
   **When** [action/event],
   **Then** [expected outcome].
 
-- [Condition 2]
+- **AC2 — [short label, e.g. "Validation error"]**
   **Given** [precondition],
   **When** [action/event],
   **Then** [expected outcome].
+
+- **AC3 — [short label, e.g. "System/negative case"]**
+  **Given** [precondition],
+  **When** [action/event],
+  **Then** [expected outcome].
+
+- *(Add AC4, AC5, … for additional scenarios as needed — do not renumber existing ones.)*
 
 ---
 
-### **Non-Functional Requirements (NFRs)**
-- **Performance:** [Target response time / throughput]
-- **Reliability/Availability:** [Uptime target / SLA]
-- **Security/Privacy:** [Encryption, data protection, access control requirements]
-- **Usability/Accessibility:** [Accessibility standard, e.g., WCAG 2.1]
-- **Observability/Logging:** [Logging/monitoring/telemetry expectations]
-- **Compliance:** [Applicable regulations, e.g., GDPR, HIPAA, industry-specific rules]
+### **Non-Functional Requirements (NFRs)** *(MANDATORY — every field below must have a concrete value or a stated `(assumption)`, never blank or "N/A" without justification)*
+- **Performance:** [Target response time / throughput, e.g., "P95 API latency ≤ 300ms under 500 RPS"]
+- **Reliability/Availability:** [Uptime target / SLA, e.g., "99.9% monthly uptime; auto-retry on transient failure"]
+- **Security/Privacy:** [AuthN/authZ model, encryption in transit/at rest, data classification, access control]
+- **Usability/Accessibility:** [Accessibility standard, e.g., WCAG 2.1 AA; specific usability targets]
+- **Observability/Logging:** [What is logged, log retention, metrics/traces emitted, alert thresholds]
+- **Compliance:** [Applicable regulations, e.g., GDPR, HIPAA, PCI-DSS, or "Not applicable — no regulated data" if genuinely none]
+- **Scalability/Capacity:** [Expected load, concurrency, data volume growth this story must support]
 
 ---
 
@@ -100,8 +118,8 @@
 - Clear problem statement
 - Persona identified
 - Dependencies identified
-- Acceptance criteria drafted
-- NFRs captured
+- Acceptance criteria drafted (≥3, Given/When/Then)
+- NFRs captured (all fields addressed)
 - Test strategy agreed
 - Effort range estimated
 - Risks noted
@@ -110,7 +128,8 @@
 
 ### **Definition of Done (DoD) Checklist**
 - Code complete & peer reviewed
-- Tests written & passing (unit/integration/e2e)
+- Tests written & passing (unit/integration/e2e), mapped to Acceptance Criteria
+- NFRs validated (performance/security/accessibility checks run)
 - Security checks passed
 - Documentation updated
 - Feature flags/toggles handled
@@ -124,7 +143,7 @@
 - **Parent Epic/Feature:** [Link or ID]
 - **Related stories/tasks:** [Link(s) or ID(s)]
 - **Design/Spec:** [Link]
-- **Test cases:** [Link]
+- **Test cases:** [Link — ideally one test case per Acceptance Criterion]
 - **Runbook/Operational docs:** [Link]
 
 ---
@@ -145,3 +164,12 @@
 - Product area: [Area]
 - Team: [Team name]
 - Sprint/Iteration: [Sprint/Iteration identifier]
+
+---
+
+## Formatting Rules (REQUIRED)
+- Bold all field labels exactly as shown (e.g., `**Title:**`, `**Given**`, `**When**`, `**Then**`).
+- Acceptance Criteria must use the `AC1`, `AC2`, `AC3`... numbering with a short label, followed by Given/When/Then on separate lines.
+- NFR fields are a fixed checklist — do not drop a field even if the answer is "Not applicable"; state why briefly instead of omitting it.
+- Do not duplicate sections or add content beyond this template's structure.
+- If generating multiple stories from one Epic, keep NFR wording consistent across sibling stories unless a story genuinely has a different target.
